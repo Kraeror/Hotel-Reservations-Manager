@@ -1,43 +1,78 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Hotel_Reservations_Manager</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dropdown.css" />
+    <link rel="stylesheet" href="~/css/btnstyle.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hotel_Reservations_Manager</a>
+                <a class="navbar-brand"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="float-lg-right">
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                            </li>
+
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("Username") != null)
+                            {
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "mainadmin")
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="myFunction()" class="dropbtn nav-link nav-light" style="color: aqua !important;">@HttpContextAccessor.HttpContext.Session.GetString("Name")</a>
+                                        <div id="myDropdown" class="dropdown-content">
+                                            <a asp-action="Index" asp-controller="Users">Потребители</a>
+                                            <a asp-action="Index" asp-controller="Rooms">Стаи</a>
+                                            <a asp-action="Index" asp-controller="Clients">Клиенти</a>
+                                            <a asp-action="Index" asp-controller="Reservations">Резервации</a>
+                                            <a asp-action="Logout" asp-controller="Users">Изход</a>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="myFunction()" class="dropbtn nav-link nav-light">@HttpContextAccessor.HttpContext.Session.GetString("Name")</a>
+                                        <div id="myDropdown" class="dropdown-content">
+                                            <a asp-action="Index" asp-controller="Clients">Клиенти</a>
+                                            <a asp-action="Index" asp-controller="Reservations">Резервации</a>
+                                            <a asp-action="Logout" asp-controller="Users">Изход</a>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Login">Влез в профила си</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main">
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Hotel_Reservations_Manager - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; Copyright 2021 - Всички права са запазени!
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -46,3 +81,22 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function (event)
+    {
+        if (!event.target.matches('.dropbtn'))
+        {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

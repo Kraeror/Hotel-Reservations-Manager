@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Hotel_Reservations_Manager.Models.RoomsModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Клиенти</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/tablestyles.css" />
+    <link rel="stylesheet" href="~/css/btnstyle.css" />
+    <link rel="stylesheet" href="~/css/datatable.css" />
+</head>
+@if (Model.Any())
+{
+    <div class="table-main-wrapper">
+        <div class="table-wrapper">
+            <table class="fl-table display" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RoomID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Capacity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AdoultPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.KidsPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.isFree)
+                        </th>
+                        <th>Контрол</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Capacity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AdoultPrice) лв.
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.KidsPrice) лв.
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.isFree)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:24px;"></i></a>
+                            <form id="delform" method="post" asp-action="Delete" asp-route-id="@item.ID">
+                                <a asp-action="Delete" asp-route-id="@item.ID" onclick="DelFunc();"><i class="fa fa-trash-o" style="font-size:24px;color:red"></i></a>
+                            </form>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <center><a asp-action="Create" class="crt-btn">Добави нова стая</a></center>
+    </div>
+}
+else
+{
+    <center>
+        <h2>Няма добавени стаи!</h2>
+        <a asp-action="Create" class="crt-btn" style="color:white;">Добави нова стая</a>
+    </center>
+}
+@section scripts
+{
+    <script src="~/js/datatables.js"></script>
+    <script>
+$(document).ready(function () {
+    $('#usersTable').DataTable();
+});
+        function DelFunc() {
+            event.preventDefault();
+            if (confirm('Сигурни ли сте, че искате да премахнете стаята?')) {
+                $("#delform").submit();
+            }
+        }
+    </script>
+}

@@ -1,0 +1,53 @@
+﻿@model Hotel_Reservations_Manager.Models.ClientsModel
+
+@{
+    ViewData["Title"] = "Създаване на клиенти";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/btnstyle.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<div class="container">
+    <div class="text-center">
+        <div class="form-content">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="familyName" class="control-label"></label>
+                    <input asp-for="familyName" class="form-control" />
+                    <span asp-validation-for="familyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="phoneNumber" class="control-label"></label>
+                    <input asp-for="phoneNumber" class="form-control" />
+                    <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="isAdoult" /> @Html.DisplayNameFor(model => model.isAdoult)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input style="width: 6rem;" type="submit" value="Създай" class="crt-btn" />
+                    <a style="width: 6rem; text-decoration: none; color:white;" asp-action="Index" class="crt-btn">Назад</a>
+                </div>
+                <font style="color:red;">@ViewData["CreateClientError"]</font>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,123 @@
+﻿@model Hotel_Reservations_Manager.Models.Models
+
+@{
+    ViewData["Title"] = "Резервации";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/tablestyles.css" />
+    <link rel="stylesheet" href="~/css/btnstyle.css" />
+    <link rel="stylesheet" href="~/css/datatable.css" />
+</head>
+@if (Model.Reservations.Any())
+{
+    <div class="table-main-wrapper">
+        <div class="table-wrapper">
+            <table class="fl-table display" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.RoomId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.ReservatedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.ClientsInTheRoom)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.AccommodationDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.ReleaseDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.isBreakfastIncluded)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Reservations2.isAllInclusive)
+                        </th>
+                        <th>Контрол</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Reservations)
+                    {
+                        <tr>
+                            <td>
+                                @foreach (var item2 in Model.Rooms.Where(rid => rid.ID == item.foreignID))
+                                {
+                                    @Html.DisplayFor(modelItem => item2.RoomID)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReservatedBy)
+                            </td>
+                            <td>
+                            @for (int i = 0; i < item.ClientsInTheRoom.Split(", ").Length; i++)
+                            {
+                                @foreach (var item2 in Model.Clients.Where(cl => cl.ID == int.Parse(item.ClientsInTheRoom.Split(",")[i])))
+                                {
+                                    @Html.DisplayFor(modelItem => item2.Name)
+                                }
+                                if (i != item.ClientsInTheRoom.Split(", ").Length - 1)
+                                {<font>, </font>}
+                                else
+                                {<font></font>}
+                            }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccommodationDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReleaseDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price) лв.
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.isBreakfastIncluded)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.isAllInclusive)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ID"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:24px;"></i></a>
+                                <form id="delform" method="post" asp-action="Delete" asp-route-id="@item.ID">
+                                    <a asp-action="Delete" asp-route-id="@item.ID" onclick="DelFunc();"><i class="fa fa-trash-o" style="font-size:24px;color:red"></i></a>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <center><a asp-action="Create" class="crt-btn">Създай нова резервация</a></center>
+    </div>
+}
+else
+{
+    <center>
+        <h2>Няма създадени резервации!</h2>
+        <a asp-action="Create" class="crt-btn" style="color:white;">Добави нова стая</a>
+    </center>
+}
+@section scripts
+{
+    <script src="~/js/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#usersTable').DataTable();
+        });
+        function DelFunc() {
+            event.preventDefault();
+            if (confirm('Сигурни ли сте, че искате да премахнете резервацията?')) {
+                $("#delform").submit();
+            }
+        }
+    </script>
+}

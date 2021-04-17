@@ -1,0 +1,107 @@
+﻿@model Hotel_Reservations_Manager.Models.Models
+
+@{
+    ViewData["Title"] = "Създаване на резервации";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/site.css" rel="stylesheet" />
+}
+<div class="container">
+    <div class="text-center">
+        <div class="form-content">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Reservations2.foreignID" class="control-label"></label>
+                    <select asp-for="Reservations2.foreignID" onchange="changeFunc();" class="form-select" id="selector">
+                        @foreach (var item in Model.Rooms)
+                        {
+                            <option value="@item.ID">Стая @item.RoomID с капацитет @item.Capacity</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Reservations2.ID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div id="for-input">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Reservations2.AccommodationDate" class="control-label"></label>
+                    <input onchange="calculatePrice" asp-for="Reservations2.AccommodationDate" class="form-control" />
+                    <span asp-validation-for="Reservations2.AccommodationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Reservations2.ReleaseDate" class="control-label"></label>
+                    <input onchange="calculatePrice" asp-for="Reservations2.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="Reservations2.ReleaseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input id="bfIncluded" onchange="calculatePrice" class="form-check-input" asp-for="Reservations2.isBreakfastIncluded" /> @Html.DisplayNameFor(model => model.Reservations2.isBreakfastIncluded)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input onchange="calculatePrice" class="form-check-input" asp-for="Reservations2.isAllInclusive" /> @Html.DisplayNameFor(model => model.Reservations2.isAllInclusive)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input style="width: 6rem;" type="submit" value="Резервирай" class="crt-btn" />
+                    <a style="width: 6rem; text-decoration: none; color:white;" asp-action="Index" class="crt-btn">Назад</a>
+                </div>
+                <font class="text-danger">@ViewData["error"]</font>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/js/he.js"></script>
+<script type="text/javascript" charset="UTF-8">
+    window.onload = changeFunc;
+    function changeFunc()
+    {
+        var elements = document.getElementsByClassName('selector2');
+        while (elements.length > 0) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+        var selector = document.getElementById('selector');
+        var selectedValue = selector.value;
+        console.log(selectedValue);
+        @foreach (var item in Model.Rooms)
+        {
+                <text>
+                if (@item.ID == selectedValue)
+                {
+                    var selectedValue2 = @item.Capacity;
+                }
+                </text>
+        }
+        var inputContainer = document.getElementById('for-input');
+        for (var i = 0; i < selectedValue2; i++)
+        {
+            var selector2 = inputContainer.appendChild(document.createElement("select"));
+            selector2.className = "selector2";
+            var option1 = document.createElement("option");
+            option1.value = "0";
+            option1.text = "Избери клиент";
+            option1.defaultSelected = true;
+            selector2.appendChild(option1);
+            selector2.tagName = "ClientsIDs";
+            @foreach (var item in Model.Clients)
+            {
+                <text>
+                var optionz = document.createElement("option");
+                selector2.setAttribute("name", "Reservations2.ClientsIDs[" + i + "]");
+                optionz.value = @item.ID;
+                optionz.text = he.decode("@item.Name");
+                selector2.appendChild(optionz);
+                </text>
+            }
+        }
+
+    }
+</script>
