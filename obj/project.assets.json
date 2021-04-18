@@ -7461,11 +7461,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel Reservations Manager\\Hotel Reservations Manager.csproj",
+      "projectUniqueName": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel_Reservations_Manager\\Hotel Reservations Manager.csproj",
       "projectName": "Hotel Reservations Manager",
-      "projectPath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel Reservations Manager\\Hotel Reservations Manager.csproj",
+      "projectPath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel_Reservations_Manager\\Hotel Reservations Manager.csproj",
       "packagesPath": "C:\\Users\\Ponedelnik\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel Reservations Manager\\obj\\",
+      "outputPath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel_Reservations_Manager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",

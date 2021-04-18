@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IcNXccETqrSwh2QS0kSF/NLrK1avZuvmOejDVHGvYbD3WN2BX5yBx5NfbRP6hYtTNlz2aTXX3Kx/MLxin6cGQA==",
+  "dgSpecHash": "kALwn/wIC7eXsckx2Y8Mn11Qk4asOuSU8JPF8Cw4j9UA5kgurZ9S/Qxru5b+sdeNFYpJrWS/tjzcGaDrF7/K8Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel Reservations Manager\\Hotel Reservations Manager.csproj",
+  "projectFilePath": "C:\\Users\\Ponedelnik\\Desktop\\ИТ Кариера\\Hotel_Reservations_Manager\\Hotel Reservations Manager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ponedelnik\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Ponedelnik\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

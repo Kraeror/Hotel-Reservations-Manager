@@ -244,13 +244,35 @@ namespace Hotel_Reservations_Manager.Controllers
                             cnt++;
                         }
                     }
-                    
+                    if (_context.Reservations.Where(rid => rid.foreignID == models.Reservations2.foreignID && rid.ID != id).Any())
+                    {
+                        ViewData["error"] = "Стаята, която сте избрали не е свободна!";
+                        return View(obj);
+                    }
                     if (cnt != models.Reservations2.ClientsIDs.Count)
                     {
                         models.Reservations2.ClientsInTheRoom = String.Join(", ", models.Reservations2.ClientsIDs.ToArray()).Replace(", 0", "").Replace(" 0,", "");
                         if (models.Reservations2.ClientsInTheRoom[0] == '0')
                         {
                             models.Reservations2.ClientsInTheRoom = models.Reservations2.ClientsInTheRoom.Remove(0, 3);
+                        }
+                        string allClients = "";
+                        foreach (var item in _context.Reservations.Where(rid => rid.ID != id))
+                        {
+                            var queryy = _context.Reservations.Where(rid => rid.ID == item.ID).FirstOrDefault();
+                            allClients += queryy.ClientsInTheRoom + ", ";
+                        }
+                        var clientsArr = allClients.Split(", ", StringSplitOptions.RemoveEmptyEntries);
+                        var errorAppear = false;
+                        var intArray = Array.ConvertAll(clientsArr, (s) => { return int.Parse(s); });
+                        if (intArray.Intersect(models.Reservations2.ClientsIDs.ToArray()).Any())
+                        {
+                            errorAppear = true;
+                        }
+                        if (errorAppear)
+                        {
+                            ViewData["error"] = "Някой от клиентите, които сте избрали вече има резервация!";
+                            return View(obj);
                         }
                         _context.Entry(models.Reservations2).Property(X => X.ClientsInTheRoom).IsModified = true;
                     }

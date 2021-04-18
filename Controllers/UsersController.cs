@@ -73,15 +73,22 @@ namespace Hotel_Reservations_Manager.Controllers
                 {
                     if (usersModel.Username != "mainadmin")
                     {
-                        usersModel.AppointmentDate = DateTime.Now.Date;
-                        usersModel.isActive = true;
-                        if(usersModel.releaseDate == null)
+                        if (usersModel.releaseDate > DateTime.Now.Date)
                         {
-                            usersModel.releaseDate = new DateTime(2000, 12, 31);
+                            usersModel.AppointmentDate = DateTime.Now.Date;
+                            usersModel.isActive = true;
+                            if (usersModel.releaseDate == null)
+                            {
+                                usersModel.releaseDate = new DateTime(2000, 12, 31);
+                            }
+                            _context.Add(usersModel);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
                         }
-                        _context.Add(usersModel);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
+                        else
+                        {
+                            ViewData["CreateUserError"] = "Датата на напускане трябва да е след днешната!";
+                        }
                     }
                     else
                     {
